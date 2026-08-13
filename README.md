@@ -10,7 +10,7 @@ A high-performance, spatial web portfolio engineered with **React 19**, **Vite**
 
 - **⚡ Instant 60 FPS Performance**: Powered by Vite 5 and GSAP ScrollTrigger engine for sub-second page loads.
 - **🎨 Modern Dark Glassmorphic Aesthetic**: Deep dark canvas (`#0a0b0e`) with HSL neon glows, frosted glass cards (`backdrop-blur-2xl`), and sleek typography.
-- **🔊 Web Audio API Sound FX**: Integrated Web Audio synthesizer for tactile click, hover, and system status chime feedback.
+- **🔊 Web Audio API Sound FX & Voice Synth**: Integrated Web Audio synthesizer & SpeechSynthesis engine for voice greetings, tactile click, hover, and system status chime feedback.
 - **📱 100% Fully Responsive**: Pixel-perfect layout optimization for Mobile, Tablet, Laptop, and 4K Ultra-wide displays.
 - **♿ WCAG Accessible**: Semantic HTML5, accessible contrast ratios, keyboard navigation support, and clean ARIA attributes.
 
@@ -21,6 +21,7 @@ A high-performance, spatial web portfolio engineered with **React 19**, **Vite**
 ### 1. 🌟 Welcome Intro Preloader (`WelcomeIntro.jsx`)
 - **Kinetic Energy Reactor Ring**: Continuous dual-ring revolving SVG animation with pulsating neon glow.
 - **Digital Progress Counter**: Smooth non-linear `0% → 100%` system initialization countup (~3.8s).
+- **Synthesized Voice Greeting**: Web Speech API voice greeting (*"Welcome to my portfolio"*).
 - **Split-Gate Curtain Reveal**: GSAP `power4.inOut` bi-directional curtain gate transition unveiling the main homepage.
 - **Audio Power-Up Chime**: Web Audio synthesizer chime plays upon reaching 100% initialization.
 
@@ -38,8 +39,9 @@ A high-performance, spatial web portfolio engineered with **React 19**, **Vite**
 
 ### 4. ⚛️ 360° Tech Stack Matrix (`TechStackSection.jsx`)
 - **Continuous Revolving Orbital Ticker**: Technology nodes continuously orbit around the central core using `gsap.ticker`.
+- **Razor-Sharp Mobile Rendering**: Integer pixel snapping (`Math.round`) and `translate3d` hardware acceleration for zero text blur on mobile GPUs.
 - **Interactive Telemetry Inspector**: Hovering over any technology node pauses orbit and renders live code snippets & mastery meters.
-- **3D Canvas Perspective Tilt**: Mouse movement dynamically tilts the entire orbital canvas up to 25 degrees.
+- **3D Canvas Perspective Tilt**: Mouse movement dynamically tilts the entire orbital canvas up to 18 degrees.
 
 ### 5. ✉️ Contact & Interactive Controls (`ContactSection.jsx` & `Navbar.jsx`)
 - **Magnetic Action Buttons**: Buttons pull magnetic cursor towards center using GSAP physics (`MagneticButton.jsx`).
@@ -56,7 +58,7 @@ A high-performance, spatial web portfolio engineered with **React 19**, **Vite**
 | **Styling & Design** | Vanilla CSS, Tailwind CSS |
 | **Animation Engine** | GSAP 3 (ScrollTrigger, Ticker, Timelines) |
 | **Icons & UI** | Lucide React |
-| **Audio FX** | Custom Web Audio API Synthesizer (`audioSynth.js`) |
+| **Audio & Voice FX** | Custom Web Audio API Synthesizer & Web Speech Synthesis (`audioSynth.js`) |
 | **Smooth Scroll** | Lenis Smooth Scroll |
 
 ---
@@ -115,4 +117,4 @@ npx netlify deploy --prod --dir=dist
 - **GitHub**: [@nashitkhan](https://github.com/)
 
 ---
-*Designed & Engineered with ❤️ by Nashit Khan.*
+*Designed & Engineered by Nashit Khan.*

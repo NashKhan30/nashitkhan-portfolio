@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Linkedin, Twitter, Heart } from 'lucide-react';
+import { Github, Linkedin, Twitter } from 'lucide-react';
 
 export const Footer = () => {
   return (
@@ -26,9 +26,9 @@ export const Footer = () => {
           </a>
         </div>
 
-        <div className="text-xs font-mono text-slate-400 flex items-center gap-1.5">
+        <div className="text-xs font-mono text-slate-400 flex items-center gap-2">
           <span>Crafted by Nashit Khan</span>
-          <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500" />
+          <span>•</span>
           <span>© {new Date().getFullYear()}</span>
         </div>
       </div>
