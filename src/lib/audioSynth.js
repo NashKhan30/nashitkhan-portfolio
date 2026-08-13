@@ -94,8 +94,42 @@ class AudioSynth {
     }
   }
 
+  speakWelcome(text = "Welcome to my portfolio") {
+    if (this.muted || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel(); // Reset active speech queue
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.92; // Slightly deliberate rate
+      utterance.pitch = 1.05; // Friendly clear pitch
+      utterance.volume = 1.0;
+      utterance.lang = 'en-US';
+
+      // Pick best English voice available
+      const voices = window.speechSynthesis.getVoices();
+      const englishVoice =
+        voices.find(
+          (v) =>
+            v.lang.startsWith('en') &&
+            (v.name.includes('Natural') ||
+              v.name.includes('Google') ||
+              v.name.includes('Samantha') ||
+              v.name.includes('Daniel') ||
+              v.name.includes('Karen'))
+        ) || voices.find((v) => v.lang.startsWith('en'));
+
+      if (englishVoice) utterance.voice = englishVoice;
+
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      // Fallback ignore if speech synthesis blocked by browser policy
+    }
+  }
+
   toggleMute() {
     this.muted = !this.muted;
+    if (this.muted && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
     return this.muted;
   }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Sparkles, Terminal, ShieldCheck, Zap, Activity, Cpu } from 'lucide-react';
+import { Sparkles, Terminal, ShieldCheck, Zap, Activity, Cpu, Volume2 } from 'lucide-react';
 import { gsap } from '../lib/gsap';
 import { sound } from '../lib/audioSynth';
 
@@ -9,6 +9,7 @@ export const WelcomeIntro = ({ onComplete }) => {
   const topCurtainRef = useRef(null);
   const bottomCurtainRef = useRef(null);
   const contentRef = useRef(null);
+  const voiceTriggeredRef = useRef(false);
 
   useEffect(() => {
     // Smooth cinematic progress counter (0% -> 100% over ~3.8 seconds)
@@ -27,6 +28,12 @@ export const WelcomeIntro = ({ onComplete }) => {
   }, []);
 
   useEffect(() => {
+    // Trigger voice greeting when progress hits ~30%
+    if (progress >= 30 && !voiceTriggeredRef.current) {
+      voiceTriggeredRef.current = true;
+      sound.speakWelcome('Welcome to my portfolio');
+    }
+
     if (progress === 100) {
       // Play high-tech power up chime
       sound.playPowerUp();
@@ -68,7 +75,8 @@ export const WelcomeIntro = ({ onComplete }) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden pointer-events-auto select-none bg-[#050608]"
+      onClick={() => sound.speakWelcome('Welcome to my portfolio')}
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden pointer-events-auto select-none bg-[#050608] cursor-pointer"
     >
       {/* Top Split Gate Curtain */}
       <div
@@ -105,8 +113,9 @@ export const WelcomeIntro = ({ onComplete }) => {
             <span className="font-mono text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-cyan-300 to-purple-300 tracking-tighter">
               {progress}%
             </span>
-            <span className="text-[10px] font-mono text-cyan-400 tracking-widest uppercase mt-1">
-              SYSTEM READY
+            <span className="text-[10px] font-mono text-cyan-400 tracking-widest uppercase mt-1 flex items-center gap-1">
+              <Volume2 className="h-3 w-3 text-cyan-400 animate-pulse" />
+              <span>VOICE READY</span>
             </span>
           </div>
         </div>
@@ -141,8 +150,8 @@ export const WelcomeIntro = ({ onComplete }) => {
             <span>CORE: REACT 19</span>
           </span>
           <span className="flex items-center gap-2 rounded-lg border border-white/10 bg-slate-900/60 px-3 py-1.5">
-            <Activity className="h-3.5 w-3.5 text-purple-400" />
-            <span>MOTION: GSAP 3</span>
+            <Volume2 className="h-3.5 w-3.5 text-purple-400" />
+            <span>VOICE: SYNTHESIZED</span>
           </span>
           <span className="flex items-center gap-2 rounded-lg border border-white/10 bg-slate-900/60 px-3 py-1.5">
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />

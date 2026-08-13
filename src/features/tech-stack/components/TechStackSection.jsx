@@ -50,12 +50,14 @@ export const TechStackSection = () => {
       );
     }, container);
 
-    // 2. CONTINUOUS 360 DEGREE REVOLVING ORBITAL MOTION TICKER
-    const radius = 190;
+    // 2. CONTINUOUS 360 DEGREE REVOLVING ORBITAL MOTION TICKER (RAZOR SHARP MOBILE RENDERING)
+    const isMobile = window.innerWidth < 640;
+    const radius = isMobile ? 125 : 190;
+
     const tickerCallback = (time, deltaTime) => {
       if (!isPaused) {
         // Increment global angle smoothly over time
-        orbitAngleRef.current += deltaTime * 0.0004;
+        orbitAngleRef.current += deltaTime * 0.00035;
       }
 
       const currentAngle = orbitAngleRef.current;
@@ -64,11 +66,12 @@ export const TechStackSection = () => {
       nodesRef.current.forEach((node, idx) => {
         if (!node) return;
         const angle = currentAngle + (idx / count) * 2 * Math.PI;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
+        // Snap to integer pixels to eliminate subpixel font blur on mobile GPUs
+        const x = Math.round(Math.cos(angle) * radius);
+        const y = Math.round(Math.sin(angle) * radius);
 
-        // Position nodes dynamically around revolving circle
-        node.style.transform = `translate(${x}px, ${y}px)`;
+        // Position nodes using translate3d for hardware acceleration without text blur
+        node.style.transform = `translate3d(${x}px, ${y}px, 0px)`;
       });
     };
 
@@ -91,8 +94,8 @@ export const TechStackSection = () => {
     const y = e.clientY - rect.top - rect.height / 2;
 
     gsap.to(ring, {
-      rotateY: (x / rect.width) * 25,
-      rotateX: (-y / rect.height) * 25,
+      rotateY: (x / rect.width) * 18,
+      rotateX: (-y / rect.height) * 18,
       duration: 0.5,
       ease: 'power1.out',
     });
@@ -125,7 +128,7 @@ export const TechStackSection = () => {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative py-28 px-6 z-10 max-w-7xl mx-auto overflow-hidden"
+      className="relative py-20 sm:py-28 px-4 sm:px-6 z-10 max-w-7xl mx-auto overflow-hidden"
     >
       <SectionHeader
         badge="Expertise & Technologies"
@@ -133,9 +136,9 @@ export const TechStackSection = () => {
         subtitle="Production-tested frontend ecosystem powering fast, scalable, and responsive web applications."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         {/* Left Column / Revolving 3D Circle Canvas (7 Cols) */}
-        <div className="lg:col-span-7 relative min-h-[480px] md:min-h-[580px] flex items-center justify-center">
+        <div className="lg:col-span-7 relative min-h-[420px] sm:min-h-[520px] md:min-h-[580px] flex items-center justify-center">
           {/* Orbital Laser SVG Path Lines Background */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 600 600">
             {/* Outer Revolving Circle */}
@@ -164,9 +167,9 @@ export const TechStackSection = () => {
           </svg>
 
           {/* Central Power Core */}
-          <div className="tech-core-nucleus absolute z-10 h-28 w-28 md:h-36 md:w-36 rounded-full bg-slate-950/90 border-2 border-cyan-400/60 p-2 shadow-[0_0_60px_rgba(0,242,254,0.4)] flex flex-col items-center justify-center text-center">
-            <Cpu className="h-8 w-8 text-cyan-400 animate-pulse mb-1" />
-            <span className="text-[10px] font-mono font-bold tracking-widest text-slate-200 uppercase">
+          <div className="tech-core-nucleus absolute z-10 h-24 w-24 sm:h-32 sm:w-32 md:h-36 md:w-36 rounded-full bg-slate-950 border-2 border-cyan-400/60 p-2 shadow-[0_0_50px_rgba(0,242,254,0.4)] flex flex-col items-center justify-center text-center">
+            <Cpu className="h-6 w-6 sm:h-8 sm:w-8 text-cyan-400 animate-pulse mb-1" />
+            <span className="text-[9px] sm:text-[10px] font-mono font-bold tracking-widest text-slate-200 uppercase">
               NASHIT // CORE
             </span>
           </div>
@@ -174,7 +177,7 @@ export const TechStackSection = () => {
           {/* 3D Revolving Circle Container */}
           <div
             ref={orbitalRingRef}
-            className="relative z-20 w-full max-w-[540px] aspect-square flex items-center justify-center transform-gpu"
+            className="relative z-20 w-full max-w-[420px] sm:max-w-[540px] aspect-square flex items-center justify-center transform-gpu"
             style={{ transformStyle: 'preserve-3d' }}
           >
             {techStackItems.map((tech, idx) => {
@@ -187,21 +190,21 @@ export const TechStackSection = () => {
                   onClick={() => handleNodeClick(tech)}
                   onMouseEnter={() => handleNodeMouseEnter(tech)}
                   onMouseLeave={() => setIsPaused(false)}
-                  className={`tech-orbital-node absolute cursor-pointer rounded-2xl border backdrop-blur-xl p-3 md:p-4 transition-all duration-300 transform-gpu group ${
+                  className={`tech-orbital-node absolute cursor-pointer rounded-xl border p-2.5 sm:p-3.5 transition-all duration-300 transform-gpu [backface-visibility:hidden] [will-change:transform] [-webkit-font-smoothing:antialiased] group ${
                     isSelected
-                      ? 'border-cyan-400 bg-slate-900/90 shadow-[0_0_35px_rgba(0,242,254,0.5)] scale-115 z-30'
-                      : 'border-white/10 bg-slate-950/80 hover:border-cyan-400/60 hover:scale-110 z-20'
+                      ? 'border-cyan-400 bg-slate-950 shadow-[0_0_35px_rgba(0,242,254,0.5)] scale-110 z-30'
+                      : 'border-white/15 bg-slate-950/95 hover:border-cyan-400/60 hover:scale-105 z-20'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-xl md:text-2xl group-hover:scale-125 transition-transform">
+                  <div className="flex items-center gap-2 sm:gap-2.5">
+                    <span className="text-lg sm:text-2xl group-hover:scale-115 transition-transform">
                       {tech.icon}
                     </span>
                     <div className="flex flex-col">
-                      <span className="font-display font-extrabold text-xs md:text-sm text-slate-100 group-hover:text-cyan-300">
+                      <span className="font-display font-extrabold text-xs sm:text-sm text-slate-100 group-hover:text-cyan-300 whitespace-nowrap">
                         {tech.name}
                       </span>
-                      <span className="text-[9px] font-mono text-cyan-400/80">
+                      <span className="text-[9px] font-mono text-cyan-400 font-bold">
                         {tech.level}% Mastery
                       </span>
                     </div>
@@ -214,15 +217,15 @@ export const TechStackSection = () => {
 
         {/* Right Column / Holographic Inspector Box (5 Cols) */}
         <div className="lg:col-span-5 relative">
-          <GlassCard className="p-8 space-y-6 border-cyan-500/30 shadow-[0_0_50px_rgba(0,242,254,0.15)]">
+          <GlassCard className="p-6 sm:p-8 space-y-6 border-cyan-500/30 shadow-[0_0_50px_rgba(0,242,254,0.15)]">
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div className="flex items-center gap-3">
-                <span className="text-3xl">{selectedTech.icon}</span>
+                <span className="text-2xl sm:text-3xl">{selectedTech.icon}</span>
                 <div>
                   <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest block">
                     Telemetry Inspector
                   </span>
-                  <h3 className="text-2xl font-bold font-display text-slate-100">{selectedTech.name}</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-100">{selectedTech.name}</h3>
                 </div>
               </div>
               <span className="rounded-full border border-purple-500/40 bg-purple-500/10 px-3 py-1 text-xs font-mono text-purple-300">
@@ -230,7 +233,7 @@ export const TechStackSection = () => {
               </span>
             </div>
 
-            <p className="text-sm font-sans text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm font-sans text-slate-300 leading-relaxed">
               {selectedTech.tagline}
             </p>
 
@@ -249,7 +252,7 @@ export const TechStackSection = () => {
             </div>
 
             {/* Live Code Snippet Box */}
-            <div className="rounded-2xl border border-white/10 bg-slate-950 p-4 font-mono text-xs text-slate-200">
+            <div className="rounded-2xl border border-white/10 bg-slate-950 p-4 font-mono text-[11px] sm:text-xs text-slate-200 overflow-x-auto">
               <div className="flex items-center justify-between text-[10px] text-slate-500 border-b border-white/5 pb-2 mb-3">
                 <span>{selectedTech.id}-telemetry.ts</span>
                 <Terminal className="h-3.5 w-3.5 text-cyan-400" />
@@ -267,7 +270,7 @@ export const TechStackSection = () => {
                   <button
                     key={tech.id}
                     onClick={() => handleNodeClick(tech)}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-mono transition-all ${
+                    className={`rounded-lg px-2.5 py-1.5 text-xs font-mono transition-all ${
                       selectedTech.id === tech.id
                         ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_15px_rgba(0,242,254,0.4)]'
                         : 'border border-white/10 bg-slate-900 text-slate-300 hover:border-cyan-400/50'

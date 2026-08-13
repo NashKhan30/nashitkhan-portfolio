@@ -67,29 +67,29 @@ export const Navbar = ({ onOpenMobileNav }) => {
   return (
     <header
       ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 transform-gpu ${
-        scrolled ? 'py-3' : 'py-6'
+      className={`fixed top-0 left-0 right-0 z-40 px-2 sm:px-6 transition-all duration-500 transform-gpu ${
+        scrolled ? 'py-2.5' : 'py-4 sm:py-6'
       }`}
     >
       <div
-        className={`max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between transition-all duration-500 ${
+        className={`max-w-7xl mx-auto flex items-center justify-between transition-all duration-500 ${
           scrolled
-            ? 'rounded-full border border-cyan-500/30 bg-slate-950/90 backdrop-blur-2xl py-2.5 px-6 shadow-[0_10px_40px_rgba(0,0,0,0.8)]'
-            : 'bg-slate-950/40 backdrop-blur-md rounded-full py-2.5 px-6 border border-white/10'
+            ? 'rounded-full border border-cyan-500/30 bg-slate-950/90 backdrop-blur-2xl py-2 px-3.5 sm:px-6 shadow-[0_10px_40px_rgba(0,0,0,0.8)]'
+            : 'bg-slate-950/50 backdrop-blur-md rounded-full py-2 px-3.5 sm:px-6 border border-white/10'
         }`}
       >
         {/* Brand Logo */}
-        <a href="#hero" className="flex items-center gap-3 group shrink-0">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 p-0.5 shadow-[0_0_20px_rgba(0,242,254,0.3)] transition-transform duration-300 group-hover:scale-105">
-            <div className="h-full w-full rounded-[10px] bg-slate-950 flex items-center justify-center font-display font-black text-cyan-400 text-lg">
+        <a href="#hero" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+          <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 p-0.5 shadow-[0_0_20px_rgba(0,242,254,0.3)] transition-transform duration-300 group-hover:scale-105">
+            <div className="h-full w-full rounded-[10px] bg-slate-950 flex items-center justify-center font-display font-black text-cyan-400 text-sm sm:text-lg">
               NK
             </div>
           </div>
           <div className="flex flex-col">
-            <span className="font-display font-extrabold text-base tracking-wider text-slate-100 group-hover:text-cyan-400 transition-colors">
+            <span className="font-display font-extrabold text-xs sm:text-base tracking-wider text-slate-100 group-hover:text-cyan-400 transition-colors">
               NASHIT KHAN
             </span>
-            <span className="text-[10px] font-mono text-cyan-400/80 tracking-widest uppercase">
+            <span className="hidden sm:block text-[10px] font-mono text-cyan-400/80 tracking-widest uppercase">
               Frontend Developer
             </span>
           </div>
@@ -116,7 +116,7 @@ export const Navbar = ({ onOpenMobileNav }) => {
               key={idx}
               href={item.href}
               onMouseEnter={handleNavMouseEnter}
-              className="relative z-10 rounded-full px-4 py-1.5 text-sm font-medium text-slate-200 hover:text-cyan-300 transition-colors"
+              className="relative z-10 rounded-full px-4 py-1.5 text-xs lg:text-sm font-medium text-slate-200 hover:text-cyan-300 transition-colors"
             >
               {item.label}
             </a>
@@ -124,7 +124,7 @@ export const Navbar = ({ onOpenMobileNav }) => {
         </nav>
 
         {/* Right Action Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <div className="hidden lg:flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-mono text-emerald-400">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
             <span>Available for Hire</span>
@@ -133,9 +133,9 @@ export const Navbar = ({ onOpenMobileNav }) => {
           <button
             onClick={handleToggleSound}
             aria-label="Toggle Audio FX"
-            className="p-2.5 rounded-full border border-white/10 bg-slate-900/80 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors backdrop-blur-md"
+            className="p-2 sm:p-2.5 rounded-full border border-white/10 bg-slate-900/80 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors backdrop-blur-md"
           >
-            {muted ? <VolumeX className="h-4 w-4 text-red-400" /> : <Volume2 className="h-4 w-4 text-cyan-400" />}
+            {muted ? <VolumeX className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-red-400" /> : <Volume2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-cyan-400" />}
           </button>
 
           <MagneticButton
@@ -148,12 +148,17 @@ export const Navbar = ({ onOpenMobileNav }) => {
             </span>
           </MagneticButton>
 
+          {/* Sleek Mobile Menu Button */}
           <button
-            onClick={onOpenMobileNav}
-            className="md:hidden p-2.5 rounded-xl border border-white/10 bg-slate-900/90 text-cyan-400 flex items-center gap-1.5"
+            onClick={() => {
+              sound.playClick();
+              onOpenMobileNav();
+            }}
+            className="md:hidden p-2 sm:p-2.5 rounded-full border border-cyan-500/40 bg-slate-900/90 text-cyan-400 flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(0,242,254,0.2)] active:scale-95 transition-transform"
+            aria-label="Open Mobile Menu"
           >
-            <Menu className="h-5 w-5" />
-            <span className="font-mono text-xs font-bold">MENU</span>
+            <Menu className="h-4 w-4 sm:h-5 sm:w-5 text-cyan-400" />
+            <span className="hidden sm:inline font-mono text-xs font-bold">MENU</span>
           </button>
         </div>
       </div>
