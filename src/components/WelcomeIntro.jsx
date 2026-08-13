@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Sparkles, Terminal, ShieldCheck, Zap, Activity, Cpu, Volume2 } from 'lucide-react';
+import { Sparkles, Terminal, ShieldCheck, Zap, Volume2, Touchpad } from 'lucide-react';
 import { gsap } from '../lib/gsap';
 import { sound } from '../lib/audioSynth';
 
@@ -10,6 +10,12 @@ export const WelcomeIntro = ({ onComplete }) => {
   const bottomCurtainRef = useRef(null);
   const contentRef = useRef(null);
   const voiceTriggeredRef = useRef(false);
+
+  // Handle mobile touch unlock
+  const handleUserInteraction = () => {
+    sound.init();
+    sound.speakWelcome('Welcome to my portfolio');
+  };
 
   useEffect(() => {
     // Smooth cinematic progress counter (0% -> 100% over ~3.8 seconds)
@@ -28,8 +34,8 @@ export const WelcomeIntro = ({ onComplete }) => {
   }, []);
 
   useEffect(() => {
-    // Trigger voice greeting when progress hits ~30%
-    if (progress >= 30 && !voiceTriggeredRef.current) {
+    // Attempt voice greeting when progress hits ~25%
+    if (progress >= 25 && !voiceTriggeredRef.current) {
       voiceTriggeredRef.current = true;
       sound.speakWelcome('Welcome to my portfolio');
     }
@@ -75,7 +81,8 @@ export const WelcomeIntro = ({ onComplete }) => {
   return (
     <div
       ref={containerRef}
-      onClick={() => sound.speakWelcome('Welcome to my portfolio')}
+      onClick={handleUserInteraction}
+      onTouchStart={handleUserInteraction}
       className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden pointer-events-auto select-none bg-[#050608] cursor-pointer"
     >
       {/* Top Split Gate Curtain */}
@@ -103,7 +110,7 @@ export const WelcomeIntro = ({ onComplete }) => {
         className="relative z-30 flex flex-col items-center justify-center px-6 max-w-4xl w-full text-center"
       >
         {/* Giant Kinetic Energy Orbital Reactor */}
-        <div className="relative h-44 w-44 md:h-56 md:w-56 mb-10 flex items-center justify-center">
+        <div className="relative h-44 w-44 md:h-56 md:w-56 mb-8 flex items-center justify-center">
           <div className="absolute inset-0 rounded-full border-2 border-cyan-500/30 animate-ping" />
           <div className="absolute inset-0 rounded-full border-t-4 border-r-4 border-cyan-400 animate-spin" style={{ animationDuration: '4s' }} />
           <div className="absolute inset-3 rounded-full border-b-4 border-l-4 border-purple-500 animate-spin" style={{ animationDuration: '2.5s', animationDirection: 'reverse' }} />
@@ -115,7 +122,7 @@ export const WelcomeIntro = ({ onComplete }) => {
             </span>
             <span className="text-[10px] font-mono text-cyan-400 tracking-widest uppercase mt-1 flex items-center gap-1">
               <Volume2 className="h-3 w-3 text-cyan-400 animate-pulse" />
-              <span>VOICE READY</span>
+              <span>VOICE SYNTH</span>
             </span>
           </div>
         </div>
@@ -126,12 +133,18 @@ export const WelcomeIntro = ({ onComplete }) => {
           <span className="tracking-wider">INITIALIZING NASHIT KHAN SPATIAL PORTFOLIO</span>
         </div>
 
+        {/* Mobile Audio Unlock Prompt */}
+        <div className="mb-4 inline-flex items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/10 px-4 py-1.5 text-[11px] font-mono font-bold text-purple-300 animate-pulse">
+          <Volume2 className="h-3.5 w-3.5 text-purple-400" />
+          <span>TAP ANYWHERE TO UNLOCK VOICE & BUTTON SOUNDS</span>
+        </div>
+
         {/* IMPRESSIVE GIANT HEADING */}
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-black font-display tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-cyan-200 to-purple-300 mb-4 shadow-sm">
           WELCOME TO MY PORTFOLIO
         </h1>
 
-        <p className="text-sm md:text-lg font-mono text-slate-300 tracking-[0.25em] uppercase mb-10">
+        <p className="text-sm md:text-lg font-mono text-slate-300 tracking-[0.25em] uppercase mb-8">
           NASHIT KHAN // FRONTEND DEVELOPER & GSAP MOTION ENGINEER
         </p>
 
@@ -146,16 +159,12 @@ export const WelcomeIntro = ({ onComplete }) => {
         {/* High-Tech Diagnostics Bar */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-slate-400 uppercase tracking-widest">
           <span className="flex items-center gap-2 rounded-lg border border-white/10 bg-slate-900/60 px-3 py-1.5">
-            <Cpu className="h-3.5 w-3.5 text-cyan-400" />
-            <span>CORE: REACT 19</span>
-          </span>
-          <span className="flex items-center gap-2 rounded-lg border border-white/10 bg-slate-900/60 px-3 py-1.5">
-            <Volume2 className="h-3.5 w-3.5 text-purple-400" />
-            <span>VOICE: SYNTHESIZED</span>
+            <Terminal className="h-3.5 w-3.5 text-cyan-400" />
+            <span>AUDIO: AUTO-UNLOCKED</span>
           </span>
           <span className="flex items-center gap-2 rounded-lg border border-white/10 bg-slate-900/60 px-3 py-1.5">
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-            <span>FPS: 60 MAX</span>
+            <span>VOICE: SYNTHESIZED</span>
           </span>
         </div>
       </div>

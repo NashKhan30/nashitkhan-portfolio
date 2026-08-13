@@ -2,6 +2,27 @@ class AudioSynth {
   constructor() {
     this.ctx = null;
     this.muted = false;
+    this.unlocked = false;
+    this.setupMobileUnlock();
+  }
+
+  setupMobileUnlock() {
+    if (typeof window === 'undefined') return;
+
+    const unlock = () => {
+      this.init();
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+      this.unlocked = true;
+      window.removeEventListener('touchstart', unlock);
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('click', unlock);
+    };
+
+    window.addEventListener('touchstart', unlock, { passive: true, once: true });
+    window.addEventListener('pointerdown', unlock, { passive: true, once: true });
+    window.addEventListener('click', unlock, { passive: true, once: true });
   }
 
   init() {
@@ -20,6 +41,9 @@ class AudioSynth {
     if (this.muted) return;
     this.init();
     if (!this.ctx) return;
+    if (this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
 
     try {
       const osc = this.ctx.createOscillator();
@@ -46,6 +70,9 @@ class AudioSynth {
     if (this.muted) return;
     this.init();
     if (!this.ctx) return;
+    if (this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
 
     try {
       const osc = this.ctx.createOscillator();
@@ -72,6 +99,9 @@ class AudioSynth {
     if (this.muted) return;
     this.init();
     if (!this.ctx) return;
+    if (this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
 
     try {
       const osc = this.ctx.createOscillator();
@@ -94,13 +124,18 @@ class AudioSynth {
     }
   }
 
-  speakWelcome(text = "Welcome to my portfolio") {
+  speakWelcome(text = 'Welcome to my portfolio') {
     if (this.muted || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    this.init();
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
+
     try {
       window.speechSynthesis.cancel(); // Reset active speech queue
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.92; // Slightly deliberate rate
-      utterance.pitch = 1.05; // Friendly clear pitch
+      utterance.rate = 0.92;
+      utterance.pitch = 1.05;
       utterance.volume = 1.0;
       utterance.lang = 'en-US';
 
