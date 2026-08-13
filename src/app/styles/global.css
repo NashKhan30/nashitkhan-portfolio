@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #0a0b0e;
+  --bg-surface: #12141c;
+  --bg-glass: rgba(18, 20, 28, 0.7);
+  --accent-cyan: #00f2fe;
+  --accent-purple: #8b5cf6;
+  --accent-pink: #f72585;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: #f1f5f9;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: 'Outfit', sans-serif;
+}
+
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0b0e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00f2fe;
+}
+
+/* Radial Spotlight effect for GlassCard */
+.glass-card {
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+    rgba(0, 242, 254, 0.06),
+    transparent 40%
+  );
+}
+
+/* Custom Animation Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}

@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #0a0b0e;
+    --bg-surface: #12141c;
+    --accent-cyan: #00f2fe;
+    --accent-purple: #8b5cf6;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: #f1f5f9;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Heavy Bold Cursive Script Typography */
+.font-cursive-bold {
+  font-family: 'Pacifico', 'Satisfy', 'Dancing Script', cursive;
+  font-weight: 700;
+}
+
+/* Custom Glassmorphism & Radial Spotlight Utility */
+.glass-card {
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+    rgba(0, 242, 254, 0.08),
+    transparent 40%
+  );
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0b0e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00f2fe;
+}
